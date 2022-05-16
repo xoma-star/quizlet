@@ -1,0 +1,16 @@
+.welcomeBack{
+    font-weight: 600;
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 0;
+}
+
+.actionGrid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.actionGrid .vkuiCard{
+    padding: 10px 20px;
+    margin: 10px;
+    min-height: 74px;
+}

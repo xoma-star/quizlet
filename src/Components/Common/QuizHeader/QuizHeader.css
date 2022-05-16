@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,XTRA@8..144,-10,25,810,422&display=swap');
+
+.QuizHeader{
+    font-family: 'Roboto Flex', sans-serif;
+    font-size: 54px;
+    display: inline;
+}

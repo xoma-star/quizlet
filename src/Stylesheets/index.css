@@ -1,0 +1,15 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --soft_blue_background: rgba(81, 153, 255, 0.15);
+    --soft_blue_accent: #1771F1;
+    --soft_violet_background: rgba(255, 190, 237, 0.25);
+    --soft_violet_accent: #DC3790;
+    --soft_yellow_background: rgba(254, 216, 118, 0.25);
+    --soft_yellow_accent: #FFC11E;
+    --soft_peach_background: rgba(251, 206, 181, 0.35);
+    --soft_peach_accent: #F85C50;
+}

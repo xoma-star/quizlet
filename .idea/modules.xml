@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/quizlet.iml" filepath="$PROJECT_DIR$/.idea/quizlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../quizlet-server/.idea/quizlet-server.iml" filepath="$PROJECT_DIR$/../quizlet-server/.idea/quizlet-server.iml" />
     </modules>
   </component>
 </project>

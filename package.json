@@ -10,11 +10,21 @@
     "@types/node": "^16.11.33",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
+    "@types/socket.io-client": "^3.0.0",
+    "@vkontakte/icons": "^1.157.1",
+    "@vkontakte/vk-bridge": "^2.6.1",
+    "@vkontakte/vkui": "^4.30.0",
+    "firebase": "^9.8.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-redux": "^8.0.1",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
+    "socket.io-client": "^4.5.0",
     "typescript": "^4.6.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "ws": "^8.6.0"
   },
   "scripts": {
     "start": "react-scripts start",

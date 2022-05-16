@@ -1,0 +1,6 @@
+.iconWrapper {
+    border-radius: 10px;
+    background-color: var(--soft_violet_background);
+    color: var(--soft_violet_accent);
+    padding: 8px;
+}

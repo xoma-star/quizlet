@@ -1,0 +1,22 @@
+.timerProgress{
+    height: 8px;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+
+.timerProgress.good .vkuiProgress__in{
+    background-color: var(--dynamic_green);
+}
+.timerProgress.medium .vkuiProgress__in{
+    background-color: var(--dynamic_orange)
+}
+.timerProgress.bad .vkuiProgress__in{
+    background-color: var(--dynamic_red)
+}
+
+.enterInput{
+    margin-top: 30px;
+}
+.questionTitle{
+    padding-left: 0;
+}
