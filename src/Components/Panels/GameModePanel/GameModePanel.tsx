@@ -13,6 +13,7 @@ import {useActions} from "../../../Hooks/useActions";
 import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 import useCached from "../../../Hooks/useCached";
 import {VKUI_Panels} from "../../../Redux/Reducers/vkui";
+import {modes} from "../../../schema";
 
 interface props{
 
@@ -26,7 +27,7 @@ const GameModePanel = ({}: props) => {
 
     const startGame = () => {
         setLoading(true)
-        socket?.emit('queue', {modesSelected: ['oneVSone'], themesSelected: themesSelected}, () => VKUI_HistoryPush({view: 'main', panel: VKUI_Panels.GAME_SEARCH}))
+        socket?.emit('queue', {modesSelected: modesSelected, themesSelected: themesSelected}, () => VKUI_HistoryPush({view: 'main', panel: VKUI_Panels.GAME_SEARCH}))
     }
 
     const clickHandler = (e: React.FormEvent<HTMLElement>, id: string, modes = false) => {
@@ -38,24 +39,18 @@ const GameModePanel = ({}: props) => {
         else UpdateCache({themesSelected: {updated: Date.now(), value: a, refresh: 600}})
     }
 
-    const categories = [
-        {label: 'Один против всех', id: 'oneVSall'},
-        {label: 'Дуэль', id: 'oneVSone'},
-        {label: 'Команда против команды', id: 'teamVSteam'},
-        {label: 'Команда против команд', id: 'teamVSall'}
-    ]
     const buttonInactiveState = loading || themesSelected.length === 0
     return <React.Fragment>
         <PanelHeader left={<PanelHeaderBack onClick={VKUI_HistoryBack}/>}>
             Поиск игры
         </PanelHeader>
         <Group header={<Header mode={'secondary'}>Режим игры</Header>}>
-            {categories.map(v => <Cell
+            {modes.map(v => <Cell
                 key={v.id}
                 mode={'selectable'}
                 checked={modesSelected.indexOf(v.id) >= 0}
                 onChange={e => clickHandler(e, v.id, true)}
-            >{v.label}</Cell>)}
+            >{v.name}</Cell>)}
         </Group>
         <Group header={<Header mode={'secondary'}>Темы</Header>}>
             {themesAvailable.length === 0 && <Spinner size={'regular'}/>}

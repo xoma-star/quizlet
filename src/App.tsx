@@ -17,6 +17,7 @@ import GameModePanel from "./Components/Panels/GameModePanel/GameModePanel";
 import useBridge from "./Hooks/useBridge";
 import useWS from "./Hooks/useWS";
 import GameSearchPanel from "./Components/Panels/GameSearchPanel/GameSearchPanel";
+import RoomPanel from "./Components/Panels/RoomPanel/RoomPanel";
 
 const App = () => {
     const vkui = useTypedSelector(s => s.vkui)
@@ -35,7 +36,7 @@ const App = () => {
                                 <Panel id={VKUI_Panels.MAIN}><WelcomePanel/></Panel>
                                 <Panel id={VKUI_Panels.GAME_MODE}><GameModePanel/></Panel>
                                 <Panel id={VKUI_Panels.GAME_SEARCH}><GameSearchPanel/></Panel>
-                                <Panel id={VKUI_Panels.ROOM}></Panel>
+                                <Panel id={VKUI_Panels.ROOM}><RoomPanel/></Panel>
                             </View>
                         </Root>
                     </SplitLayout>

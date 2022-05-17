@@ -1,4 +1,5 @@
 import { Socket } from 'socket.io-client'
+import {themes} from "../../schema";
 
 export enum ServerActionTypes{
     SET_WS_SERVER = 'SET_WS_SERVER',
@@ -30,7 +31,7 @@ interface State{
 const defaultState: State = {
     socket: null,
     cached: {
-        themesAvailable: {updated: 0, value: [], refresh: 600},
+        themesAvailable: {updated: 0, value: themes, refresh: 600},
         themesSelected: {updated: 0, value: [], refresh: 600},
         modesSelected: {updated: 0, value: [], refresh: 0},
     }
