@@ -1,38 +1,59 @@
-import {Button, Caption, Card, Div, Header, Input, Progress} from "@vkontakte/vkui";
+import {Button, Caption, Card, Div, FormItem, Header, IconButton, Input, Progress} from "@vkontakte/vkui";
 import {QuestionType} from "../../../schema";
 import {useEffect, useState} from "react";
 import './QuestionBlock.css'
+import useQuestionTimer from "../../../Hooks/useQuestionTimer";
+import {Icon16Done} from "@vkontakte/icons";
+import useQuestionInput from "../../../Hooks/useQuestionInput";
+import error from "@vkontakte/icons/dist/typings/24/error";
 
 interface props{
     type: 'game' | 'waiting',
     question: QuestionType,
     callback: (i: string | number) => void,
-    disabled?: boolean
+    disabled?: boolean,
+    right?: boolean
 }
 
-const QuestionBlock = ({question, type, callback, disabled = false}: props) => {
-    const [timer, setTimer] = useState(question.time)
+const QuestionBlock = ({question, type, callback, disabled = false, right}: props) => {
+    const [itemClicked, setItemClicked] = useState(0)
+    const { progressState, ratio } = useQuestionTimer(question)
+    const {input, setInput, inputRef} = useQuestionInput(question)
 
-    useEffect(() => {
-        setTimer(question.time)
-        const clear = setInterval(() => {setTimer(t => t - 1)}, 1000)
-        return () => clearInterval(clear)
-    }, [question.text])
+    const clickHandler = (i: number) => {
+        setItemClicked(i)
+        callback(i)
+    }
 
-    const ratio = timer / question.time * 100
-    let progressState = 'good'
-    if(ratio < 70) progressState = 'medium'
-    if(ratio < 35) progressState = 'bad'
+    const color = (i?: number) => disabled ? (i === itemClicked ? (right ? 'commerce' : 'destructive') : 'secondary') : 'secondary'
+    const inputColor = () => !disabled ? 'default' : (right ? 'valid' : 'error')
 
     return <Div>
         <Card mode={"shadow"} style={{padding: 20}}>
             <Header className={'questionTitle'} multiline>{question.text}</Header>
             {question.type === 'select' &&
                 question.answers.map((v, i) =>
-                    <Button mode={'secondary'} style={{margin: '10px 0'}} onClick={() => callback(i)} disabled={disabled} stretched size={'m'}>{v.text}</Button>
+                    <Button
+                        mode={color(i)}
+                        style={{margin: '10px 0'}}
+                        onClick={() => clickHandler(i)}
+                        disabled={disabled}
+                        stretched
+                        size={'m'}>{v.text}</Button>
                 )
             }
-            {question.type === 'enter' && <Input className={'enterInput'} placeholder={'Введите ответ'}/> }
+            {question.type === 'enter' && <FormItem status={inputColor()}>
+                <Input
+                    getRef={inputRef}
+                    className={'enterInput'}
+                    placeholder={'Введите ответ'}
+                    value={input}
+                    disabled={disabled}
+                    onChange={event => setInput(event.currentTarget.value)}
+                    // after={<IconButton><Icon16Done onClick={inputHandler}/></IconButton>}
+                />
+                <Button size={'l'} style={{marginTop: 20}} stretched disabled={disabled} onClick={() => callback(input)}>Подтвердить</Button>
+            </FormItem>}
             <Progress className={`timerProgress ${progressState}`} value={ratio}/>
         </Card>
         {type === 'waiting' &&

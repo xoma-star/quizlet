@@ -49,7 +49,12 @@ const RoomPanel = () => {
                 </div>
             </HorizontalScroll>
         </Group>
-        {roomData.activeQuestion >= 0 && <QuestionBlock type={'game'} question={question} disabled={!didntAnswer(vkid)} callback={callback}/>}
+        {roomData.activeQuestion >= 0 && <QuestionBlock
+            type={'game'}
+            question={question}
+            disabled={!didntAnswer(vkid)}
+            right={answeredRight(vkid)}
+            callback={callback}/>}
         {roomData.activeQuestion < 0 && <FixedLayout vertical={'bottom'}>
                 <Div style={{display: 'flex'}}><Button stretched size={'l'} loading={timer <= 0} disabled mode={"tertiary"}>{timer}</Button></Div>
             </FixedLayout>}
