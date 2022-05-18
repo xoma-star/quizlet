@@ -6,16 +6,18 @@ import './QuestionBlock.css'
 interface props{
     type: 'game' | 'waiting',
     question: QuestionType,
-    callback?: () => void
+    callback: (i: string | number) => void,
+    disabled?: boolean
 }
 
-const QuestionBlock = ({question, type}: props) => {
+const QuestionBlock = ({question, type, callback, disabled = false}: props) => {
     const [timer, setTimer] = useState(question.time)
 
     useEffect(() => {
+        setTimer(question.time)
         const clear = setInterval(() => {setTimer(t => t - 1)}, 1000)
         return () => clearInterval(clear)
-    })
+    }, [question.text])
 
     const ratio = timer / question.time * 100
     let progressState = 'good'
@@ -26,8 +28,8 @@ const QuestionBlock = ({question, type}: props) => {
         <Card mode={"shadow"} style={{padding: 20}}>
             <Header className={'questionTitle'} multiline>{question.text}</Header>
             {question.type === 'select' &&
-                question.answers.map(v =>
-                    <Button mode={'secondary'} style={{margin: '10px 0'}} stretched size={'m'}>{v.text}</Button>
+                question.answers.map((v, i) =>
+                    <Button mode={'secondary'} style={{margin: '10px 0'}} onClick={() => callback(i)} disabled={disabled} stretched size={'m'}>{v.text}</Button>
                 )
             }
             {question.type === 'enter' && <Input className={'enterInput'} placeholder={'Введите ответ'}/> }

@@ -39,7 +39,7 @@ const GameModePanel = ({}: props) => {
         else UpdateCache({themesSelected: {updated: Date.now(), value: a, refresh: 600}})
     }
 
-    const buttonInactiveState = loading || themesSelected.length === 0
+    const buttonInactiveState = loading || themesSelected.length === 0 || modesSelected.length === 0
     return <React.Fragment>
         <PanelHeader left={<PanelHeaderBack onClick={VKUI_HistoryBack}/>}>
             Поиск игры

@@ -2,7 +2,9 @@ interface Question{
     author?: string,
     image?: string,
     text: string,
-    time: number
+    time: number,
+    answeredRight: string[],
+    answeredWrong: string[]
 }
 
 interface SelectAnswers{
@@ -34,7 +36,8 @@ export interface room{
     players: playerInRoom[],
     questions: QuestionType[],
     theme: string,
-    mode: string
+    mode: string,
+    activeQuestion: number
 }
 
 export const themes = [

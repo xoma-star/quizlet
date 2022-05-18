@@ -1,7 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react"
-import { useTypedSelector } from "../../../Hooks/useTypedSelector"
-import {modes, room, themes} from "../../../schema";
+import {modes, themes} from "../../../schema";
 import {
     Avatar, Button,
     Div,
@@ -13,25 +11,26 @@ import {
     PanelHeader,
     Title
 } from "@vkontakte/vkui";
+import useRoom from "../../../Hooks/useRoom";
+import QuestionBlock from "../../Common/QuestionBlock/QuestionBlock";
+import {Icon20CancelCircleFillRed, Icon20CheckCircleFillGreen} from "@vkontakte/icons";
+import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 
 const RoomPanel = () => {
-    const {socket} = useTypedSelector(s => s.server)
-    const [roomData, setRoomData] = useState<room>({id: '', players: [], theme: '', questions: [], mode: ''})
-    const [roomReady, setRoomReady] = useState(false)
-    const [timer, setTimer] = useState(0)
-    useEffect(() => {
-        socket?.on('updatedRoomData', (data) => setRoomData(data))
-        socket?.on('roomReady', () => setRoomReady(true))
-        socket?.on('roomStarted', () => alert('a'))
-    }, [])
+    const {roomData, timer, callback} = useRoom()
+    const {vkid} = useTypedSelector(s => s.user)
+    const question = roomData.questions[roomData.activeQuestion]
+    const answeredRight = (id: string) => question.answeredRight.indexOf(id) >= 0
+    const answeredWrong = (id: string) => question.answeredWrong.indexOf(id) >= 0
+    const didntAnswer = (id: string) => !(answeredRight(id) || answeredWrong(id))
 
-    useEffect(() => {
-        if(roomReady){
-            setTimer(5)
-            let interval = setInterval(() => setTimer((t) => t - 1), 1000)
-            setTimeout(() => clearInterval(interval), 5000)
-        }
-    }, [roomReady])
+    const badge = (id: string) => {
+        if(typeof question === 'undefined') return <div/>
+        if(answeredRight(id)) return <Icon20CheckCircleFillGreen/>
+        if(answeredWrong(id)) return <Icon20CancelCircleFillRed/>
+        if(didntAnswer(id)) return <div/>
+    }
+
     return <React.Fragment>
         <PanelHeader separator={false}/>
         <Group>
@@ -43,14 +42,17 @@ const RoomPanel = () => {
         <Group header={<Header mode={'secondary'}>знатоки</Header>}>
             <HorizontalScroll>
                 <div style={{display: 'flex'}}>
-                    {roomData.players.map(v => <HorizontalCell key={v.ava} header={v.name}><Avatar src={v.ava}/></HorizontalCell>)}
+                    {roomData.players.map(v =>
+                        <HorizontalCell key={v.ava} header={v.name}>
+                            <Avatar src={v.ava} badge={badge(v.id)}/>
+                        </HorizontalCell>)}
                 </div>
             </HorizontalScroll>
         </Group>
-        {}
-        <FixedLayout vertical={'bottom'}>
-            <Div style={{display: 'flex'}}><Button stretched size={'l'} loading={!roomReady} disabled mode={"overlay_secondary"}>{timer}</Button></Div>
-        </FixedLayout>
+        {roomData.activeQuestion >= 0 && <QuestionBlock type={'game'} question={question} disabled={!didntAnswer(vkid)} callback={callback}/>}
+        {roomData.activeQuestion < 0 && <FixedLayout vertical={'bottom'}>
+                <Div style={{display: 'flex'}}><Button stretched size={'l'} loading={timer <= 0} disabled mode={"tertiary"}>{timer}</Button></Div>
+            </FixedLayout>}
     </React.Fragment>
 }
 
