@@ -1,11 +1,9 @@
-import {Button, Caption, Card, Div, FormItem, Header, IconButton, Input, Progress} from "@vkontakte/vkui";
+import {Button, Caption, Card, Div, FormItem, Header, Input, Progress} from "@vkontakte/vkui";
 import {QuestionType} from "../../../schema";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import './QuestionBlock.css'
 import useQuestionTimer from "../../../Hooks/useQuestionTimer";
-import {Icon16Done} from "@vkontakte/icons";
 import useQuestionInput from "../../../Hooks/useQuestionInput";
-import error from "@vkontakte/icons/dist/typings/24/error";
 
 interface props{
     type: 'game' | 'waiting',
@@ -18,7 +16,7 @@ interface props{
 const QuestionBlock = ({question, type, callback, disabled = false, right}: props) => {
     const [itemClicked, setItemClicked] = useState(0)
     const { progressState, ratio } = useQuestionTimer(question)
-    const {input, setInput, inputRef} = useQuestionInput(question)
+    const {input, setInput} = useQuestionInput(question)
 
     const clickHandler = (i: number) => {
         setItemClicked(i)
@@ -44,11 +42,11 @@ const QuestionBlock = ({question, type, callback, disabled = false, right}: prop
             }
             {question.type === 'enter' && <FormItem status={inputColor()}>
                 <Input
-                    getRef={inputRef}
                     className={'enterInput'}
                     placeholder={'Введите ответ'}
                     value={input}
                     disabled={disabled}
+                    onKeyDown={event => {if(event.key === 'Enter') callback(input)}}
                     onChange={event => setInput(event.currentTarget.value)}
                     // after={<IconButton><Icon16Done onClick={inputHandler}/></IconButton>}
                 />
