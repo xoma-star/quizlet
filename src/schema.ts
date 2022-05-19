@@ -9,7 +9,7 @@ interface Question{
 
 interface SelectAnswers{
     text: string,
-    right: boolean
+    right?: boolean
 }
 
 interface QuestionSelect extends Question{
@@ -19,7 +19,7 @@ interface QuestionSelect extends Question{
 
 interface QuestionEnter extends Question{
     type: 'enter',
-    answer: string
+    answer?: string
 }
 
 export type QuestionType = QuestionSelect | QuestionEnter
@@ -34,7 +34,7 @@ interface playerInRoom{
 export interface room{
     id: string,
     players: playerInRoom[],
-    questions: QuestionType[],
+    questions?: QuestionType[],
     theme: string,
     mode: string,
     activeQuestion: number

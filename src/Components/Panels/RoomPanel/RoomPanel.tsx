@@ -17,15 +17,14 @@ import {Icon20CancelCircleFillRed, Icon20CheckCircleFillGreen} from "@vkontakte/
 import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 
 const RoomPanel = () => {
-    const {roomData, timer, callback} = useRoom()
+    const {roomData, timer, callback, question} = useRoom()
     const {vkid} = useTypedSelector(s => s.user)
-    const question = roomData.questions[roomData.activeQuestion]
-    const answeredRight = (id: string) => question.answeredRight.indexOf(id) >= 0
-    const answeredWrong = (id: string) => question.answeredWrong.indexOf(id) >= 0
+    const answeredRight = (id: string) => question ? question.answeredRight.indexOf(id) >= 0 : false
+    const answeredWrong = (id: string) => question ? question.answeredWrong.indexOf(id) >= 0 : false
     const didntAnswer = (id: string) => !(answeredRight(id) || answeredWrong(id))
 
     const badge = (id: string) => {
-        if(typeof question === 'undefined') return <div/>
+        if(!question) return <div/>
         if(answeredRight(id)) return <Icon20CheckCircleFillGreen/>
         if(answeredWrong(id)) return <Icon20CancelCircleFillRed/>
         if(didntAnswer(id)) return <div/>
@@ -49,13 +48,13 @@ const RoomPanel = () => {
                 </div>
             </HorizontalScroll>
         </Group>
-        {roomData.activeQuestion >= 0 && <QuestionBlock
+        {question && <QuestionBlock
             type={'game'}
             question={question}
             disabled={!didntAnswer(vkid)}
             right={answeredRight(vkid)}
             callback={callback}/>}
-        {roomData.activeQuestion < 0 && <FixedLayout vertical={'bottom'}>
+        {!question && <FixedLayout vertical={'bottom'}>
                 <Div style={{display: 'flex'}}><Button stretched size={'l'} loading={timer <= 0} disabled mode={"tertiary"}>{timer}</Button></Div>
             </FixedLayout>}
     </React.Fragment>
