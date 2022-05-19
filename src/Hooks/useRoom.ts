@@ -5,7 +5,7 @@ import {QuestionType, room} from "../schema";
 const useRoom = () => {
     const {socket} = useTypedSelector(s => s.server)
     const {vkid} = useTypedSelector(s => s.user)
-    const [roomData, setRoomData] = useState<room>({id: '', players: [], theme: '', mode: '', activeQuestion: -1})
+    const [roomData, setRoomData] = useState<room>({id: '', players: [], theme: '', mode: '', activeQuestion: -1, questions: []})
     const [roomReady, setRoomReady] = useState(false)
     const [timer, setTimer] = useState(0)
     const [question, setQuestion] = useState<QuestionType | null>(null)

@@ -48,12 +48,16 @@ const RoomPanel = () => {
                 </div>
             </HorizontalScroll>
         </Group>
-        {question && <QuestionBlock
+        {roomData.questions.length === 0 && question && <QuestionBlock
             type={'game'}
             question={question}
             disabled={!didntAnswer(vkid)}
             right={answeredRight(vkid)}
             callback={callback}/>}
+        {roomData.questions.map(v => <QuestionBlock
+            type={'check'}
+            question={v}
+            disabled={true}/>)}
         {!question && <FixedLayout vertical={'bottom'}>
                 <Div style={{display: 'flex'}}><Button stretched size={'l'} loading={timer <= 0} disabled mode={"tertiary"}>{timer}</Button></Div>
             </FixedLayout>}

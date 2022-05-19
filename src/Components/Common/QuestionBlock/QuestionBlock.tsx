@@ -4,26 +4,44 @@ import {useState} from "react";
 import './QuestionBlock.css'
 import useQuestionTimer from "../../../Hooks/useQuestionTimer";
 import useQuestionInput from "../../../Hooks/useQuestionInput";
+import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 
 interface props{
-    type: 'game' | 'waiting',
+    type: 'game' | 'waiting' | 'check',
     question: QuestionType,
-    callback: (i: string | number) => void,
+    callback?: (i: string | number) => void,
     disabled?: boolean,
     right?: boolean
 }
 
 const QuestionBlock = ({question, type, callback, disabled = false, right}: props) => {
     const [itemClicked, setItemClicked] = useState(0)
-    const { progressState, ratio } = useQuestionTimer(question)
+    const { progressState, ratio } = useQuestionTimer(question, type)
     const {input, setInput} = useQuestionInput(question)
+    const {vkid} = useTypedSelector(s => s.user)
 
     const clickHandler = (i: number) => {
         setItemClicked(i)
-        callback(i)
+        if (callback) callback(i)
     }
 
-    const color = (i?: number) => disabled ? (i === itemClicked ? (right ? 'commerce' : 'destructive') : 'secondary') : 'secondary'
+    const color = (i: number) => {
+        if(question.type !== 'select') return 'secondary'
+        if(type === 'check') {
+            if(question.answers[i].right) return 'commerce'
+            if(!question.answers[i].right && question.usersAnswers.find(x => x.id === vkid)?.answer === i) return 'destructive'
+            return 'secondary'
+        }
+        if(disabled) {
+            if(i === itemClicked){
+                if(right) return 'commerce'
+                else return 'destructive'
+            }
+            return 'secondary'
+        }
+
+        return 'secondary'
+    }
     const inputColor = () => !disabled ? 'default' : (right ? 'valid' : 'error')
 
     return <Div>
@@ -35,7 +53,7 @@ const QuestionBlock = ({question, type, callback, disabled = false, right}: prop
                         mode={color(i)}
                         style={{margin: '10px 0'}}
                         onClick={() => clickHandler(i)}
-                        disabled={disabled}
+                        disabled={disabled || ratio < 0}
                         stretched
                         size={'m'}>{v.text}</Button>
                 )
@@ -44,15 +62,19 @@ const QuestionBlock = ({question, type, callback, disabled = false, right}: prop
                 <Input
                     className={'enterInput'}
                     placeholder={'Введите ответ'}
-                    value={input}
-                    disabled={disabled}
-                    onKeyDown={event => {if(event.key === 'Enter') callback(input)}}
+                    value={type === 'check' ? question.usersAnswers.find(x => x.id === vkid)?.answer : input}
+                    disabled={disabled || ratio < 0}
+                    onKeyDown={event => {if(event.key === 'Enter') if(callback) callback(input)}}
                     onChange={event => setInput(event.currentTarget.value)}
-                    // after={<IconButton><Icon16Done onClick={inputHandler}/></IconButton>}
                 />
-                <Button size={'l'} style={{marginTop: 20}} stretched disabled={disabled} onClick={() => callback(input)}>Подтвердить</Button>
+                {type === 'check' && <Caption
+                    weight={'2'}
+                    style={{marginTop: 12, color: 'var(--content_placeholder_text)'}}>Правильный ответ: {question.answer}</Caption>}
+                {type !== 'check' && <Button size={'l'} style={{marginTop: 20}}
+                                             stretched disabled={disabled}
+                                             onClick={() => {if(callback) callback(input)}}>Подтвердить</Button>}
             </FormItem>}
-            <Progress className={`timerProgress ${progressState}`} value={ratio}/>
+            {type !== 'check' && <Progress className={`timerProgress ${progressState}`} value={ratio}/>}
         </Card>
         {type === 'waiting' &&
             <Caption style={{textAlign: 'center', color: 'var(--content_placeholder_icon)', marginTop: 10}}>Тренировочный режим. Ответы не засчитываются.</Caption>

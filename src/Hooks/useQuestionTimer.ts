@@ -1,9 +1,10 @@
 import {QuestionType} from "../schema";
 import {useEffect, useState} from "react";
 
-const useQuestionTimer = (question: QuestionType) => {
+const useQuestionTimer = (question: QuestionType, type: string) => {
     const [timer, setTimer] = useState(question.time)
     useEffect(() => {
+        if (type === 'check') return
         setTimer(question.time)
         const clear = setInterval(() => {setTimer(t => t - 1)}, 1000)
         return () => clearInterval(clear)

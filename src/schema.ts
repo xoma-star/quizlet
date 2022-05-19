@@ -14,12 +14,14 @@ interface SelectAnswers{
 
 interface QuestionSelect extends Question{
     type: 'select',
-    answers: SelectAnswers[]
+    answers: SelectAnswers[],
+    usersAnswers: [{id: string, answer: number}]
 }
 
 interface QuestionEnter extends Question{
     type: 'enter',
-    answer?: string
+    answer?: string,
+    usersAnswers: [{id: string, answer: string}]
 }
 
 export type QuestionType = QuestionSelect | QuestionEnter
@@ -34,7 +36,7 @@ interface playerInRoom{
 export interface room{
     id: string,
     players: playerInRoom[],
-    questions?: QuestionType[],
+    questions: QuestionType[],
     theme: string,
     mode: string,
     activeQuestion: number
