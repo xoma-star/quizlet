@@ -10,6 +10,12 @@ export const VKUI_HistoryPush = (p: VKUI_History) => {
     }
 }
 
+export const VKUI_HistoryClear = () => {
+    return (dispatch: Dispatch<VKUI_Action>) => {
+        dispatch({type: VKUI_ActionTypes.HISTORY_CLEAR})
+    }
+}
+
 export const VKUI_HistoryBack = () => {
     return (dispatch: Dispatch<VKUI_Action>) => dispatch({type: VKUI_ActionTypes.HISTORY_BACK})
 }

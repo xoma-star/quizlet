@@ -1,6 +1,6 @@
 import {Dispatch} from "react";
 import {Socket} from "socket.io-client";
-import {cachedFields, cachedPayload, ServerAction, ServerActionTypes} from "../Reducers/server";
+import {cachedPayload, ServerAction, ServerActionTypes} from "../Reducers/server";
 
 export const ServerSetWS = (p: Socket) => {
     return (dispatch: Dispatch<ServerAction>) => {

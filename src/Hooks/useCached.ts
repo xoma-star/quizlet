@@ -6,12 +6,6 @@ const useCached = () => {
     const { cached, socket } = useTypedSelector(s => s.server)
     const { UpdateCache } = useActions()
     const availableThemes = cached.themesAvailable.value
-    if(false && cached.themesAvailable.updated + cached.themesAvailable.refresh < now) {
-        UpdateCache({themesAvailable: {updated: now, value: availableThemes, refresh: 5000}})
-        socket?.emit('getThemes', (data: {id: string, name: string}[]) => {
-            UpdateCache({themesAvailable: {updated: now, value: data, refresh: 600*1000}})
-        })
-    }
 
     const selectedThemes = cached.themesSelected.value
     if(selectedThemes.length === 0 && cached.themesSelected.updated < 1) {

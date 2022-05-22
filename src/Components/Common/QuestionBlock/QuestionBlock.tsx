@@ -42,7 +42,11 @@ const QuestionBlock = ({question, type, callback, disabled = false, right}: prop
 
         return 'secondary'
     }
-    const inputColor = () => !disabled ? 'default' : (right ? 'valid' : 'error')
+    const inputColor = () => {
+        if(type === 'game') return !disabled ? 'default' : (right ? 'valid' : 'error')
+        if(question.answeredRight.indexOf(vkid) >= 0) return "valid"
+        return 'error'
+    }
 
     return <Div>
         <Card mode={"shadow"} style={{padding: 20}}>
@@ -50,6 +54,7 @@ const QuestionBlock = ({question, type, callback, disabled = false, right}: prop
             {question.type === 'select' &&
                 question.answers.map((v, i) =>
                     <Button
+                        key={v.text}
                         mode={color(i)}
                         style={{margin: '10px 0'}}
                         onClick={() => clickHandler(i)}
@@ -71,14 +76,11 @@ const QuestionBlock = ({question, type, callback, disabled = false, right}: prop
                     weight={'2'}
                     style={{marginTop: 12, color: 'var(--content_placeholder_text)'}}>Правильный ответ: {question.answer}</Caption>}
                 {type !== 'check' && <Button size={'l'} style={{marginTop: 20}}
-                                             stretched disabled={disabled}
+                                             stretched disabled={disabled || ratio < 0}
                                              onClick={() => {if(callback) callback(input)}}>Подтвердить</Button>}
             </FormItem>}
             {type !== 'check' && <Progress className={`timerProgress ${progressState}`} value={ratio}/>}
         </Card>
-        {type === 'waiting' &&
-            <Caption style={{textAlign: 'center', color: 'var(--content_placeholder_icon)', marginTop: 10}}>Тренировочный режим. Ответы не засчитываются.</Caption>
-        }
     </Div>
 }
 

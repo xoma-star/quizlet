@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useTypedSelector} from "./Hooks/useTypedSelector";
 import {
     AdaptivityProvider,
     AppRoot,
     ConfigProvider,
-    SplitCol,
     SplitLayout,
     Root,
     View,
-    Panel, ScreenSpinner, FixedLayout, Cell, Spinner, PanelHeader, PanelHeaderClose, Button, Div
+    Panel
 } from "@vkontakte/vkui";
 import getLast from "./Functions/getLast";
 import {VKUI_Panels} from "./Redux/Reducers/vkui";
@@ -21,11 +20,10 @@ import RoomPanel from "./Components/Panels/RoomPanel/RoomPanel";
 
 const App = () => {
     const vkui = useTypedSelector(s => s.vkui)
-    const server = useTypedSelector(s => s.server)
     useBridge()
     useWS()
 
-    {/*@ts-ignore*/}
+    /*@ts-ignore*/
     return <ConfigProvider appearance={vkui.scheme}>
             {/*@ts-ignore*/}
             <AdaptivityProvider>

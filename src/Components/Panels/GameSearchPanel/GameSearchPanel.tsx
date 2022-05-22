@@ -1,7 +1,7 @@
 import {Button, Div, FixedLayout, PanelHeader, PanelHeaderClose} from "@vkontakte/vkui";
 import React from "react";
-import { useActions } from "../../../Hooks/useActions";
-import { useTypedSelector } from "../../../Hooks/useTypedSelector";
+import {useActions} from "../../../Hooks/useActions";
+import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 
 const GameSearchPanel = () => {
     const {VKUI_HistoryBack} = useActions()

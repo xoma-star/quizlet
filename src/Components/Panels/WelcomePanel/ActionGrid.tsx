@@ -1,4 +1,4 @@
-import {Card, CardGrid, Group, HorizontalCell, HorizontalScroll, InitialsAvatar} from "@vkontakte/vkui";
+import {CardGrid, Group} from "@vkontakte/vkui";
 import {IOSLikeIcon} from "../../Common/IOSLikeIcon";
 import {Icon24BrainOutline, Icon24CupOutline, Icon24GameOutline} from "@vkontakte/icons";
 import {useActions} from "../../../Hooks/useActions";

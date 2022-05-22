@@ -1,4 +1,4 @@
-import {Avatar, FixedLayout, Group, Header, HorizontalCell, HorizontalScroll, InitialsAvatar} from "@vkontakte/vkui";
+import {Avatar, FixedLayout, Group, Header, HorizontalCell, HorizontalScroll} from "@vkontakte/vkui";
 import React from "react";
 import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 import {Icon24AddCircleOutline} from "@vkontakte/icons";

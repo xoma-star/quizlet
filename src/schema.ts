@@ -26,7 +26,7 @@ interface QuestionEnter extends Question{
 
 export type QuestionType = QuestionSelect | QuestionEnter
 
-interface playerInRoom{
+export interface playerInRoom{
     name?: string,
     ava?: string,
     score?: number,

@@ -10,7 +10,8 @@ export enum VKUI_ActionTypes{
     HISTORY_PUSH = 'HISTORY_PUSH',
     HISTORY_BACK = 'HISTORY_BACK',
     SET_MODAL = 'SET_MODAL',
-    SET_APPEARANCE = 'SET_APPEARANCE'
+    SET_APPEARANCE = 'SET_APPEARANCE',
+    HISTORY_CLEAR = 'HISTORY_CLEAN'
 }
 
 export enum VKUI_Panels{
@@ -36,7 +37,7 @@ interface VKUI_HistoryPushAction{
 }
 
 interface VKUI_HistoryBackAction{
-    type: VKUI_ActionTypes.HISTORY_BACK
+    type: VKUI_ActionTypes.HISTORY_BACK | VKUI_ActionTypes.HISTORY_CLEAR
 }
 
 interface VKUI_ModalAction{
@@ -65,6 +66,7 @@ export const VKUI_Reducer = (state: State = defaultState, action: VKUI_Action): 
         case VKUI_ActionTypes.HISTORY_BACK:
             if(h.length > 1) h.pop()
             return {...state, history: h}
+        case VKUI_ActionTypes.HISTORY_CLEAR: return {...state, history: defaultState.history}
         case VKUI_ActionTypes.HISTORY_PUSH: return {...state, history: [...state.history, action.payload]}
         case VKUI_ActionTypes.SET_MODAL:
             if(action.payload) mh.push(action.payload)

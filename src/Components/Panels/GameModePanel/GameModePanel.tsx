@@ -1,25 +1,12 @@
-import {
-    Button,
-    Cell,
-    Div,
-    Group,
-    Header,
-    PanelHeader,
-    PanelHeaderBack,
-    Spinner
-} from "@vkontakte/vkui";
-import React, {useEffect, useState} from "react";
+import {Button, Cell, Div, Group, Header, PanelHeader, PanelHeaderBack, Spinner} from "@vkontakte/vkui";
+import React, {useState} from "react";
 import {useActions} from "../../../Hooks/useActions";
 import {useTypedSelector} from "../../../Hooks/useTypedSelector";
 import useCached from "../../../Hooks/useCached";
 import {VKUI_Panels} from "../../../Redux/Reducers/vkui";
 import {modes} from "../../../schema";
 
-interface props{
-
-}
-
-const GameModePanel = ({}: props) => {
+const GameModePanel = () => {
     const {VKUI_HistoryBack, UpdateCache, VKUI_HistoryPush} = useActions()
     const { socket } = useTypedSelector(s => s.server)
     const { themesAvailable, themesSelected, modesSelected} = useCached()
