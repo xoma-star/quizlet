@@ -40,7 +40,6 @@ const useRoom = () => {
             let k = answeredRightCount(a.id)
             let m = answeredRightCount(b.id)
             if(k > m) return 1
-            if(k === m) return 0
             return -1
         })
 
@@ -51,7 +50,7 @@ const useRoom = () => {
         question,
         callback,
         players,
-        answeredRightCount: answeredRightCount(vkid)
+        answeredRightCount
     }
 }
 

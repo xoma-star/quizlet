@@ -26,7 +26,7 @@ const RoomPanel = () => {
 
     const badge = (id: string) => {
         if(!question) return <div/>
-        if(gameEnded) return <Counter size="s">{answeredRightCount}</Counter>
+        if(gameEnded) return <Counter size="s">{answeredRightCount(id)}</Counter>
         if(answeredRight(id)) return <Icon20CheckCircleFillGreen/>
         if(answeredWrong(id)) return <Icon20CancelCircleFillRed/>
         if(didntAnswer(id)) return false
