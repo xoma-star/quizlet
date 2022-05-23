@@ -28,12 +28,30 @@ const useRoom = () => {
         }
     }, [roomReady])
 
+    const answeredRightCount = (id: string) => {
+        return roomData.questions.map(x => {
+            if(x.answeredRight.indexOf(id) >= 0) return 1
+            return 0
+        }).filter((x) => x === 1).length
+    }
+
+    const players = roomData.players
+        .sort((a, b) => {
+            let k = answeredRightCount(a.id)
+            let m = answeredRightCount(b.id)
+            if(k > m) return 1
+            if(k === m) return 0
+            return -1
+        })
+
     return {
         roomData,
         timer,
         roomReady,
         question,
-        callback
+        callback,
+        players,
+        answeredRightCount: answeredRightCount(vkid)
     }
 }
 

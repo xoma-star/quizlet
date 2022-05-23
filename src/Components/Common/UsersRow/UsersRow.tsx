@@ -10,7 +10,8 @@ export interface IUsers extends playerInRoom{
 }
 
 interface props{
-    users: IUsers[]
+    users: IUsers[],
+    header?: boolean
 }
 
 const UsersRow = ({users}: props) => {
