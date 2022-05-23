@@ -39,8 +39,9 @@ const useRoom = () => {
         .sort((a, b) => {
             let k = answeredRightCount(a.id)
             let m = answeredRightCount(b.id)
-            if(k > m) return 1
-            return -1
+            if(k > m) return -1
+            if(k === m) return 0
+            return 1
         })
 
     return {
